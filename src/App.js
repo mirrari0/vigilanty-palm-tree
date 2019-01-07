@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
-import logo from './logo.svg';
 import './App.css';
+import { playgame } from './FizzBuzzCalculator';
 
 class App extends Component {
 
@@ -22,31 +22,15 @@ class App extends Component {
                 }/>
                 <button id={'submit'} onClick={
                     ()=>{
-                        var value = '';
-                        switch (true) {
-                            case this.state.input === 0 || this.state.input === '':
-                                value = this.state.input;
-                                break;
-                            case this.state.input % 15 === 0:
-                                value = 'fizzbuzz';
-                                break;
-                            case this.state.input % 3 === 0:
-                                value = 'fizz';
-                                break;
-                            case this.state.input % 5 === 0:
-                                value = 'buzz';
-                                break;
-                            default: value = this.state.input;
-
-                        }
-
-                        this.setState({output: value});
+                        this.setState({output: playgame(this.state.input)});
                     }
                 }>Submit</button>
                 <label id={'output'}>{ this.state.output }</label>
             </div>
         );
     }
+
+
 }
 
 export default App;
