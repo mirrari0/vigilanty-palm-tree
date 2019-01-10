@@ -19,11 +19,15 @@ export function playgame(input) {
     }
 
 export async function playgameRemoteInline(input) {
-    return fetch('https://sf5oz1x80a.execute-api.us-west-1.amazonaws.com/api/fizzbuzz/'+input)
-        .then((response) => { return  response.json() })
-        .then((json) => { parseJsonIntoValue(json)});
+    if(input === '') return '';
+    try {
+        const response = await fetch('https://sf5oz1x80a.execute-api.us-west-1.amazonaws.com/api/fizzbuzz/' + parseInt(input),
+        );
+        const json = await response.json();
+        return await json.result;
+    }
+    catch (e) {
+        console.log("caught exception", e);
+    }
 }
 
-function parseJsonIntoValue(json) {
-    return json.result;
-}

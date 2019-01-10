@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import './App.css';
+import { playgameRemoteInline} from "./FizzBuzzCalculator";
 
 class App extends Component {
 
@@ -33,25 +34,9 @@ class App extends Component {
     }
 
     async submitHandler() {
-        await this.callItLiterallyAnythingElse();
+        this.setState({output: await playgameRemoteInline(this.state.input)});
 
     }
-
-
-    async callItLiterallyAnythingElse() {
-        if(this.state.input === '') return '';
-        try {
-            const response = await fetch('https://sf5oz1x80a.execute-api.us-west-1.amazonaws.com/api/fizzbuzz/' + parseInt(this.state.input),
-                );
-
-            const json = await response.json();
-            this.setState({output: await this.parseJsonIntoValue(json)})
-        }
-        catch (e) {
-            console.log("caught exception", e);
-        }
-    }
-
 
     parseJsonIntoValue(json) {
         return json.result;
