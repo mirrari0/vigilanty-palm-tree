@@ -89,17 +89,67 @@ describe('FizzBuzz Logic', () => {
         expect(app.find('#output').text()).toEqual('0');
     });
 
-    it('should update output with undefined if the input number is undefined', function () {
+    it('should update output with undefined if the input number is undefined', async () => {
         app.find('#userInput').simulate('change', {target: {value: ''}});
-        app.find('#submit').simulate('click');
         app.update();
 
+        await app.instance().submitHandler();
         expect(app.find('#output').text()).toEqual('');
     });
 });
 
 
-describe('Test full functionality', () => {
+describe('E2E Functional Tests', () => {
+    var app;
 
+    beforeEach(() => {
+        app = mount(<App/>);
+    });
+
+    it('When given a number 3, clicking submit, displays the output fizz correctly to the page', (done) => {
+        app.find('#userInput').simulate('change', {target: {value: '3'}});
+        app.find('#submit').simulate('click');
+        app.update();
+        checkOutputE2E('fizz', done, app);
+    });
+
+
+    it('When given a number 5, clicking submit, displays the output buzz correctly to the page', (done) => {
+        app.find('#userInput').simulate('change', {target: {value: '5'}});
+        app.find('#submit').simulate('click');
+        app.update();
+        checkOutputE2E('buzz', done, app);
+    });
+
+
+    it('When given a number 15, clicking submit, displays the output fizzbuzz correctly to the page', (done) => {
+        app.find('#userInput').simulate('change', {target: {value: '15'}});
+        app.find('#submit').simulate('click');
+        app.update();
+        checkOutputE2E('fizzbuzz', done, app);
+    });
+
+
+    it('When given a number 17, clicking submit, displays the output 17 correctly to the page', (done) => {
+        app.find('#userInput').simulate('change', {target: {value: '17'}});
+        app.find('#submit').simulate('click');
+        app.update();
+        checkOutputE2E('17', done, app);
+    });
 
 });
+
+
+
+function checkOutputE2E(expectedValue, done, app){
+    setInterval(() => {
+        app.update();
+        const text = app.find('#output').text();
+        if (text === expectedValue) {
+            done();
+        }
+        else if (text !== "" && text !== "loading") {
+            done.fail(`Result was ${text} but expected ${expectedValue}`);
+        }
+    }, 10);
+};

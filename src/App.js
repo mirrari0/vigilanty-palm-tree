@@ -34,12 +34,9 @@ class App extends Component {
     }
 
     async submitHandler() {
+        this.setState({output: 'loading'});
         this.setState({output: await playgameRemoteInline(this.state.input)});
 
-    }
-
-    parseJsonIntoValue(json) {
-        return json.result;
     }
 
 }
