@@ -17,3 +17,13 @@ export function playgame(input) {
         if(input % 5 === 0) return 'buzz';
         return '';
     }
+
+export async function playgameRemoteInline(input) {
+    return fetch('https://sf5oz1x80a.execute-api.us-west-1.amazonaws.com/api/fizzbuzz/'+input)
+        .then((response) => { return  response.json() })
+        .then((json) => { parseJsonIntoValue(json)});
+}
+
+function parseJsonIntoValue(json) {
+    return json.result;
+}
